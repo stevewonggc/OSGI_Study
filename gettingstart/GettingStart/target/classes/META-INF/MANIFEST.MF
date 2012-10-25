@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Export-Package: org.stevesolution.osgistudy.gettingstart;version="1.0.
+ 0.SNAPSHOT"
+Private-Package: org.stevesolution.osgistudy.gettingstart.internal
+Ignore-Package: org.stevesolution.osgistudy.gettingstart.internal
+Built-By: SteveWong
+Tool: Bnd-0.0.255
+Bundle-Name: org.stevesolution.osgistudy.gettingstart.GettingStart [or
+ g.stevesolution.osgistudy.gettingstart]
+Created-By: Apache Maven Bundle Plugin
+Build-Jdk: 1.7.0_07
+Bundle-Version: 1.0.0.SNAPSHOT
+Bnd-LastModified: 1351184966862
+Bundle-Activator: org.stevesolution.osgistudy.gettingstart.internal.Ex
+ ampleActivator
+Bundle-ManifestVersion: 2
+Bundle-Description: Generated using Pax-Construct
+Import-Package: org.osgi.framework,org.stevesolution.osgistudy.getting
+ start;version="1.0.0.SNAPSHOT"
+Bundle-SymbolicName: org.stevesolution.osgistudy.gettingstart.GettingS
+ tart
+
