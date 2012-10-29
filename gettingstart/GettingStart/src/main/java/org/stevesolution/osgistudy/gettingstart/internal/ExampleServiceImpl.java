@@ -1,38 +1,98 @@
 package org.stevesolution.osgistudy.gettingstart.internal;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 import org.stevesolution.osgistudy.gettingstart.ExampleService;
 
 /**
  * Internal implementation of our example OSGi service
  */
-public final class ExampleServiceImpl
-    implements ExampleService
+public final class ExampleServiceImpl implements ExampleService
 {
     // implementation methods go here...
+    
+    private ServerSocket ss = null;
 
-    public String scramble( String text )
+    public ExampleServiceImpl(int port)
     {
-        List charList = new ArrayList();
-
-        char[] textChars = text.toCharArray();
-        for( int i = 0; i < textChars.length; i++ )
+        try
         {
-            charList.add( new Character( textChars[i] ) );
+            ss = new ServerSocket(port);
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void run()
+    {
+        while(true)
+        {
+            try
+            {
+                Socket socket = ss.accept();
+                new CreateServerThread(socket);
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class CreateServerThread extends Thread
+    {
+        private BufferedReader in;
+        private PrintWriter out;
+        public CreateServerThread(Socket socket)
+        {
+            try
+            {
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                out = new PrintWriter(socket.getOutputStream());
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            out.println("=================================================");
+            out.println("==============Welcome to SteveSolution===========");
+            out.println("=================================================");
+            this.start();
         }
 
-        Collections.shuffle( charList );
-
-        char[] mixedChars = new char[text.length()];
-        for( int i = 0; i < mixedChars.length; i++ )
+        @Override
+        public void run()
         {
-            mixedChars[i] = ( (Character) charList.get( i ) ).charValue();
+            String line = null;
+            try
+            {
+                line = in.readLine();
+                while(line.equalsIgnoreCase("bye"))
+                {
+                    out.println(line);
+                    line = in.readLine();
+                }
+            } 
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            finally
+            {
+                try
+                {
+                    ss.close();
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
         }
-
-        return new String( mixedChars );
     }
 }
 

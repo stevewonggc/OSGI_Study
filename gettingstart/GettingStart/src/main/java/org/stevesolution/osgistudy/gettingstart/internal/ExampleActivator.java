@@ -22,13 +22,16 @@ public final class ExampleActivator
     {
         System.out.println( "STARTING org.stevesolution.osgistudy.gettingstart" );
 
+        @SuppressWarnings("rawtypes")
         Dictionary props = new Properties();
         // add specific service properties here...
 
         System.out.println( "REGISTER org.stevesolution.osgistudy.gettingstart.ExampleService" );
 
         // Register our example service implementation in the OSGi service registry
-        bc.registerService( ExampleService.class.getName(), new ExampleServiceImpl(), props );
+        bc.registerService( ExampleService.class.getName(), new ExampleServiceImpl(10000), props );
+
+        
     }
 
     /**
